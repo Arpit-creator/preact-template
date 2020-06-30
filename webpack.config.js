@@ -11,7 +11,7 @@ module.exports = {
 	entry: './index.js',
 
 	output: {
-		path: path.resolve(__dirname, "build2"),
+		path: path.resolve(__dirname, "build"),
 		publicPath: '/',
 		filename: 'bundle.js'
 	},
@@ -59,7 +59,7 @@ module.exports = {
 				use: 'raw-loader'
 			},
 			{
-				test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
+				test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif|mp3|oga|ogg|webm|ogv|mp4)(\?.*)?$/i,
 				use: ENV ==='production' ? 'file-loader' : 'url-loader'
 			}
 		]
