@@ -8,9 +8,17 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 module.exports = env => {
 	const ENV = env.NODE_ENV || 'development';
 
+<<<<<<< HEAD
 	return {
 		context: path.resolve(__dirname, "src"),
 		entry: './index.js',
+=======
+	output: {
+		path: path.resolve(__dirname, "build"),
+		publicPath: '/',
+		filename: 'bundle.js'
+	},
+>>>>>>> 3257e931b8a6eae31b2d939b2c284103b91a395c
 
 		output: {
 			path: path.resolve(__dirname, "build"),
@@ -18,6 +26,7 @@ module.exports = env => {
 			filename: 'bundle.js'
 		},
 
+<<<<<<< HEAD
 		optimization: {
 			minimize: ENV === 'production'
 		},
@@ -33,6 +42,91 @@ module.exports = env => {
 				'@': path.resolve(__dirname, "src"),
 				'react': 'preact/compat',
 				'react-dom': 'preact/compat'
+=======
+	module: {
+		rules: [
+			{
+				test: /\.jsx?$/,
+				exclude: path.resolve(__dirname, 'src'),
+				enforce: 'pre',
+				use: 'source-map-loader'
+			},
+			{
+				test: /\.jsx?$/,
+				exclude: /node_modules/,
+				use: 'babel-loader'
+			},
+			{
+				test: /\.(scss|css)$/,
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'sass-loader']
+				})
+			},
+			{
+				test: /\.json$/,
+				use: 'json-loader'
+			},
+			{
+				test: /\.(xml|html|txt|md)$/,
+				use: 'raw-loader'
+			},
+			{
+				test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif|mp3|oga|ogg|webm|ogv|mp4)(\?.*)?$/i,
+				use: ENV ==='production' ? 'file-loader' : 'url-loader'
+			}
+		]
+	},
+	plugins: ([
+		new webpack.NoEmitOnErrorsPlugin(),
+		new ExtractTextPlugin({
+			filename: 'style.css',
+			allChunks: true,
+			disable: false
+		}),
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(ENV)
+		}),
+		new HtmlWebpackPlugin({
+			template: path.join(__dirname, 'public', 'index.html'),
+			minify: { collapseWhitespace: true }
+		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				{ from: path.join(__dirname, 'public', 'manifest.json'), to: './' },
+				{ from: path.join(__dirname, 'public', 'favicon.ico'), to: './' },
+				{ from: path.join(__dirname, 'public', 'icons'), to: './icons' }
+			]
+		})
+	]).concat(ENV === 'production' ? [
+		new webpack.optimize.UglifyJsPlugin({
+			output: {
+				comments: false
+			},
+			compress: {
+				unsafe_comps: true,
+				properties: true,
+				keep_fargs: false,
+				pure_getters: true,
+				collapse_vars: true,
+				unsafe: true,
+				warnings: false,
+				screw_ie8: true,
+				sequences: true,
+				dead_code: true,
+				drop_debugger: true,
+				comparisons: true,
+				conditionals: true,
+				evaluate: true,
+				booleans: true,
+				loops: true,
+				unused: true,
+				hoist_funs: true,
+				if_return: true,
+				join_vars: true,
+				cascade: true,
+				drop_console: true
+>>>>>>> 3257e931b8a6eae31b2d939b2c284103b91a395c
 			}
 		},
 
