@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 
-const App = () => {
+function App() {
 	return (
 		<div className="App">
 			This is a preact app
