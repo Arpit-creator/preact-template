@@ -3,7 +3,6 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 module.exports = env => {
 	const ENV = env?.NODE_ENV || 'development';
@@ -83,16 +82,7 @@ module.exports = env => {
 					{ from: path.join(__dirname, 'public'), to: './' }
 				]
 			})
-		].concat(ENV === 'production' ? [ // remove this for apps without pwa
-			new SWPrecacheWebpackPlugin({
-				cacheId: 'preact-template-v1',
-				dontCacheBustUrlsMatching: /\.\w{8}\./,
-				filename: 'service-worker.js',
-				minify: true,
-				navigateFallback: 'url to deployment url',
-				staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-			})
-		] : [])),
+		]),
 
 		stats: { colors: true },
 
@@ -105,6 +95,6 @@ module.exports = env => {
 			setImmediate: false
 		},
 
-		devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
+		devtool: ENV === 'production' ? undefined : 'cheap-module-eval-source-map',
 	};
 }
