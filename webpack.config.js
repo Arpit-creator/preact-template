@@ -93,8 +93,6 @@ module.exports = env => {
 			__filename: false,
 			__dirname: false,
 			setImmediate: false
-		},
-
-		devtool: ENV === 'production' ? undefined : 'cheap-module-eval-source-map',
+		}
 	};
 }
