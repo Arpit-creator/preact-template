@@ -71,7 +71,8 @@ module.exports = env => {
 			}),
 			new HtmlWebpackPlugin({
 				template: path.join(__dirname, "public", "index.html"),
-				minify: { collapseWhitespace: true }
+				minify: { collapseWhitespace: true },
+				inject: false
 			}),
 			new CopyWebpackPlugin({
 				patterns: [

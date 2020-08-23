@@ -7,7 +7,7 @@
   "description": "app description here",
   "scripts": {
     "build": "webpack --env.NODE_ENV=production -c --mode production",
-    "start": "concurrently \"webpack --env.NODE_ENV=development -c -w --mode development\" \"serve --listen 8080 build\""
+    "start": "concurrently --kill-all \"webpack --env.NODE_ENV=development -c -w --mode development\" \"serve --listen 8080 build\""
   },
   "devDependencies": {
     "@types/react": "^16.9.46",
