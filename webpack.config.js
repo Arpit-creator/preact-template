@@ -6,11 +6,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 module.exports = env => {
-	const ENV = env.NODE_ENV || 'development';
+	const ENV = env?.NODE_ENV || 'development';
 
 	return {
 		context: path.resolve(__dirname, "src"),
-		entry: './index.js',
+		entry: './index.tsx',
 
 		output: {
 			path: path.resolve(__dirname, "build"),
@@ -23,7 +23,7 @@ module.exports = env => {
 		},
 
 		resolve: {
-			extensions: ['.jsx', '.js', '.json', '.scss'],
+			extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
 			modules: [
 				path.resolve(__dirname, "src/lib"),
 				path.resolve(__dirname, "node_modules"),
@@ -39,15 +39,9 @@ module.exports = env => {
 		module: {
 			rules: [
 				{
-					test: /\.jsx?$/,
-					exclude: path.resolve(__dirname, 'src'),
-					enforce: 'pre',
-					use: 'source-map-loader'
-				},
-				{
-					test: /\.jsx?$/,
+					test: /\.tsx?$/,
 					exclude: /node_modules/,
-					use: 'babel-loader'
+					loaders: ['ts-loader']
 				},
 				{
 					test: /\.(scss|css)$/,
@@ -89,7 +83,7 @@ module.exports = env => {
 					{ from: path.join(__dirname, 'public'), to: './' }
 				]
 			})
-		].concat(ENV === 'production' ? [
+		].concat(ENV === 'production' ? [ // remove this for apps without pwa
 			new SWPrecacheWebpackPlugin({
 				cacheId: 'preact-template-v1',
 				dontCacheBustUrlsMatching: /\.\w{8}\./,
@@ -112,15 +106,5 @@ module.exports = env => {
 		},
 
 		devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
-
-		devServer: {
-			port: process.env.PORT || 8080,
-			host: 'localhost',
-			publicPath: '/',
-			contentBase: './src',
-			historyApiFallback: true,
-			open: true,
-			openPage: ''
-		}
 	};
 }
